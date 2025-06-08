@@ -1,0 +1,309 @@
+AWS Linux File System Lab
+
+This document outlines the steps for completing the "Working with the File System" lab, which involves creating and managing a folder structure on an Amazon Linux EC2 instance using SSH. The lab focuses on file and directory manipulation using Linux commands.
+
+Objectives
+
+In this lab, you will:
+
+
+
+
+
+Create a folder structure as specified
+
+
+
+Create files
+
+
+
+Copy and move files and directories
+
+
+
+Delete files and directories
+
+Duration
+
+Approximately 30 minutes
+
+Prerequisites
+
+
+
+
+
+Access to the AWS Management Console
+
+
+
+An SSH client (e.g., PuTTY for Windows or terminal for macOS/Linux)
+
+
+
+Basic familiarity with Linux commands
+
+Task 1: Connect to an Amazon Linux EC2 Instance
+
+
+
+
+
+Access the AWS Management Console:
+
+
+
+
+
+Choose Start Lab to launch the lab environment.
+
+
+
+Wait for the Lab status: ready message, then close the Start Lab panel.
+
+
+
+Open the AWS Management Console in a new browser tab (allow pop-ups if necessary).
+
+
+
+SSH Connection (Windows Users):
+
+
+
+
+
+From the Details menu, select Show to view credentials.
+
+
+
+Download the labsuser.ppk file and note the PublicIP address.
+
+
+
+Use PuTTY to connect to the EC2 instance (refer to AWS documentation for configuration details).
+
+
+
+SSH Connection (macOS/Linux Users):
+
+
+
+
+
+Use the terminal to SSH into the instance with the provided credentials and PublicIP.
+
+Task 2: Create a Folder Structure
+
+Create the following folder structure and files on the Linux machine:
+
+/home/ec2-user/CompanyA/
+├── Finance/
+│   ├── ProfitAndLossStatements.csv
+│   └── Salary.csv
+├── HR/
+│   ├── Assessments.csv
+│   └── TrialPeriod.csv
+├── Management/
+│   ├── Managers.csv
+│   └── Schedule.csv
+
+Steps
+
+
+
+
+
+Verify you are in the home directory:
+
+pwd
+
+If not, navigate to /home/ec2-user:
+
+cd /home/ec2-user
+
+
+
+Create the top-level folder:
+
+mkdir CompanyA
+
+
+
+Navigate to the CompanyA directory:
+
+cd CompanyA
+
+
+
+Create subfolders:
+
+mkdir Finance HR Management
+
+
+
+Verify subfolders:
+
+ls
+
+Expected output: Finance HR Management
+
+
+
+Create files in the HR folder:
+
+cd HR
+touch Assessments.csv TrialPeriod.csv
+ls
+
+Expected output: Assessments.csv TrialPeriod.csv
+
+
+
+Create files in the Finance folder:
+
+cd ../Finance
+touch Salary.csv ProfitAndLossStatements.csv
+ls
+
+Expected output: Salary.csv ProfitAndLossStatements.csv
+
+
+
+Create files in the Management folder from CompanyA:
+
+cd ..
+touch Management/Managers.csv Management/Schedule.csv
+ls Management
+
+Expected output: Managers.csv Schedule.csv
+
+
+
+Validate the entire structure:
+
+ls -lR
+
+Task 3: Delete and Reorganize Folders
+
+Reorganize the folder structure as follows:
+
+
+
+
+
+Copy the Finance folder and its contents to the HR folder, then remove the original Finance folder.
+
+
+
+Move the Management folder to the HR folder.
+
+
+
+Create an Employees folder inside HR and move Assessments.csv and TrialPeriod.csv into it.
+
+Steps
+
+
+
+
+
+Ensure you are in the CompanyA directory:
+
+pwd
+
+Output: /home/ec2-user/CompanyA
+
+
+
+Copy the Finance folder to HR:
+
+cp -r Finance HR
+ls HR/Finance
+
+Expected output: ProfitAndLossStatements.csv Salary.csv
+
+
+
+Remove the original Finance folder:
+
+rm Finance/ProfitAndLossStatements.csv Finance/Salary.csv
+ls Finance
+
+Expected output: (empty)
+
+rmdir Finance
+ls
+
+Expected output: HR Management
+
+
+
+Move the Management folder to HR:
+
+mv Management HR
+ls HR/Management
+
+Expected output: Managers.csv Schedule.csv
+
+
+
+Create the Employees folder and move files:
+
+cd HR
+mkdir Employees
+mv Assessments.csv TrialPeriod.csv Employees
+ls Employees
+
+Expected output: Assessments.csv TrialPeriod.csv
+
+Final Structure
+
+The resulting structure should be:
+
+/home/ec2-user/CompanyA/
+└── HR/
+    ├── Employees/
+    │   ├── Assessments.csv
+    │   └── TrialPeriod.csv
+    ├── Finance/
+    │   ├── ProfitAndLossStatements.csv
+    │   └── Salary.csv
+    ├── Management/
+    │   ├── Managers.csv
+    │   └── Schedule.csv
+
+Lab Completion
+
+
+
+
+
+Verify all steps are complete.
+
+
+
+End the lab in the AWS Management Console by selecting End Lab and confirming with Yes.
+
+Notes
+
+
+
+
+
+The touch command creates empty files.
+
+
+
+The ls command lists directory contents; use ls -lR for a recursive listing.
+
+
+
+Use rmdir for empty directories or rm -r for non-empty directories.
+
+
+
+The cp -r command copies directories recursively, and mv moves files or directories.
+
+This lab was completed successfully, demonstrating proficiency in Linux file system operations on an AWS EC2 instance.
