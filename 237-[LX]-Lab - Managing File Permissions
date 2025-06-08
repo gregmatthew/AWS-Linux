@@ -1,0 +1,275 @@
+237-[LX]-Lab - Managing File Permissions
+
+Overview
+
+This lab focuses on managing file and folder permissions in an Amazon Linux EC2 instance using SSH. It covers changing ownership and permissions for a company folder structure, using both symbolic and absolute modes with the chmod command.
+
+Objectives
+
+
+
+
+
+Change folder and file permissions to match the appropriate group structure.
+
+
+
+Modify file permissions for a user.
+
+
+
+Update the company folder structure.
+
+Duration
+
+Approximately 35 minutes.
+
+AWS Service Restrictions
+
+Access is restricted to specific AWS services and actions required for this lab. Attempting to access other services or perform unauthorized actions may result in errors.
+
+Prerequisites
+
+
+
+
+
+Familiarity with SSH and basic Linux commands.
+
+
+
+Access to the AWS Management Console and an Amazon Linux EC2 instance.
+
+
+
+PuTTY (for Windows users) or an SSH utility (for macOS/Linux users).
+
+Lab Instructions
+
+Task 1: Use SSH to Connect to an Amazon Linux EC2 Instance
+
+In this task, you connect to an Amazon Linux EC2 instance using an SSH utility.
+
+Steps for Windows Users
+
+
+
+
+
+Start the lab by selecting Start Lab at the top of the instructions.
+
+
+
+
+
+Wait for the lab status: ready message, then close the Start Lab panel.
+
+
+
+Select AWS to open the AWS Management Console in a new browser tab.
+
+
+
+
+
+If the tab doesn't open, allow pop-ups in your browser settings.
+
+
+
+Arrange the AWS Management Console tab alongside the instructions for easy reference.
+
+
+
+From the Details drop-down menu, select Show to view credentials.
+
+
+
+Download the labsuser.ppk file and note the PublicIP address.
+
+
+
+Open PuTTY and configure the session using the labsuser.ppk file and the PublicIP address (refer to AWS documentation for details).
+
+
+
+Connect to the EC2 instance via SSH.
+
+Steps for macOS/Linux Users
+
+
+
+
+
+Use the terminal to SSH into the EC2 instance with the provided credentials and PublicIP address.
+
+Task 2: Change File and Folder Ownership
+
+This task involves updating the ownership of specific folders within the /home/ec2-user/companyA directory.
+
+Steps
+
+
+
+
+
+Verify you are in the correct directory:
+
+pwd
+
+If not in /home/ec2-user/companyA, navigate to it:
+
+cd /home/ec2-user/companyA
+
+
+
+Change ownership of the companyA folder to user mjackson and group Personnel:
+
+sudo chown -R mjackson:Personnel /home/ec2-user/companyA
+
+
+
+Change ownership of the HR folder to user ljuan and group HR:
+
+sudo chown -R ljuan:HR HR
+
+
+
+Change ownership of the HR/Finance folder to user major and group Finance:
+
+sudo chown -R major:Finance HR/Finance
+
+
+
+Validate the ownership changes:
+
+ls -laR
+
+This displays the ownership permissions for the entire companyA folder structure, including Documents, Employees, HR, Management, Roster.csv, Sales, SharedFalders, and Shipping.
+
+Task 3: Change Permission Modes
+
+This task involves creating files and modifying their permissions using the chmod command in both symbolic and absolute modes.
+
+Steps
+
+
+
+
+
+Verify you are in the /home/ec2-user/companyA directory:
+
+pwd
+
+
+
+Create a file named symbolic_mode_file using vim:
+
+sudo vi symbolic_mode_file
+
+
+
+
+
+Press ESC, then type :wq and press Enter to save and exit.
+
+
+
+Change permissions of symbolic_mode_file to grant group write access using symbolic mode:
+
+sudo chmod g+w symbolic_mode_file
+
+
+
+Create a file named absolute_mode_file using vim:
+
+sudo vi absolute_mode_file
+
+
+
+
+
+Press ESC, then type :wq and press Enter to save and exit.
+
+
+
+Change permissions of absolute_mode_file to 764 (owner: read/write/execute, group: read/write, others: read) using absolute mode:
+
+sudo chmod 764 absolute_mode_file
+
+
+
+Verify the permissions for both files:
+
+ls -l
+
+Task 4: Assign Permissions
+
+This task involves updating ownership for the Shipping and Sales folders.
+
+Steps
+
+
+
+
+
+Verify you are in the /home/ec2-user/companyA directory:
+
+pwd
+
+
+
+Change ownership of the Shipping folder to user eowusu and group Shipping:
+
+sudo chown -R eowusu:Shipping Shipping
+
+
+
+Change ownership of the Sales folder to user rwolf and group Sales:
+
+sudo chown -R rwolf:Sales Sales
+
+
+
+Validate the changes:
+
+
+
+
+
+For the Shipping folder:
+
+ls -laR Shipping
+
+
+
+For the Sales folder:
+
+ls -laR Sales
+
+Lab Completion
+
+
+
+
+
+Select End Lab at the top of the instructions and confirm by selecting Yes.
+
+
+
+Wait for the "DELETE has been initiated" message, then close the panel.
+
+Notes
+
+
+
+
+
+The lab assumes prior knowledge from related courseware.
+
+
+
+The ls -laR command recursively lists permissions, confirming changes to the folder structure.
+
+
+
+The chmod command supports both symbolic (e.g., g+w) and absolute (e.g., 764) modes for permission changes.
