@@ -1,0 +1,91 @@
+225-[LX]-Lab: Introduction to Amazon Linux AMI
+Objective
+Gain hands-on experience with Amazon Linux AMI in an AWS EC2 environment. Learn how to launch, connect, and interact with an EC2 instance using Amazon Linux.
+
+Prerequisites
+AWS Account
+
+Basic knowledge of Linux commands
+
+Access to AWS EC2 console
+
+Lab Steps
+1. Launch an EC2 Instance
+Go to the AWS EC2 Console
+
+Select Launch Instance
+
+Choose Amazon Linux 2 AMI (HVM), SSD Volume Type
+
+Select an instance type (e.g., t2.micro for free tier)
+
+Configure instance details as needed
+
+Add storage (default is fine)
+
+Add tags (optional)
+
+Configure security group:
+
+Allow SSH (port 22) from your IP
+
+Review and launch
+
+Create or use an existing key pair to connect
+
+2. Connect to the EC2 Instance
+Open a terminal
+
+Run:
+
+bash
+Copy
+Edit
+chmod 400 your-key-name.pem
+ssh -i your-key-name.pem ec2-user@your-ec2-public-dns
+3. Explore the Amazon Linux AMI
+Check OS version:
+
+bash
+Copy
+Edit
+cat /etc/os-release
+Update packages:
+
+bash
+Copy
+Edit
+sudo yum update -y
+Install basic tools:
+
+bash
+Copy
+Edit
+sudo yum install git -y
+sudo yum install nano -y
+4. Create and Run a Sample Script
+Create a script:
+
+bash
+Copy
+Edit
+nano hello.sh
+Add content:
+
+bash
+Copy
+Edit
+#!/bin/bash
+echo "Hello from Amazon Linux!"
+Make it executable and run:
+
+bash
+Copy
+Edit
+chmod +x hello.sh
+./hello.sh
+Cleanup
+Stop or terminate the instance from the EC2 dashboard to avoid charges.
+
+Conclusion
+You’ve successfully launched, connected to, and interacted with an EC2 instance running Amazon Linux AMI. This is foundational for deeper AWS and DevOps work.
