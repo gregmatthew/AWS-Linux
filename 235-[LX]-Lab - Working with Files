@@ -1,0 +1,272 @@
+235-[LX]-Lab: Working with Files
+
+Overview
+
+This lab focuses on file management tasks on an Amazon Linux EC2 instance using SSH. It involves creating a backup of a folder structure, logging the backup details, and transferring the backup file to another directory.
+
+Duration: Approximately 30 minutes
+
+Objectives
+
+
+
+
+
+Create a backup of an entire folder structure using tar.
+
+
+
+Log the backup creation with date, time, and file name in a file.
+
+
+
+Transfer the backup file to another folder.
+
+Prerequisites
+
+
+
+
+
+Access to the AWS Management Console.
+
+
+
+SSH utility (e.g., PuTTY for Windows or terminal for macOS/Linux).
+
+
+
+Familiarity with basic Linux commands.
+
+Environment Setup
+
+The lab environment includes the following folder structure under /home/ec2-user/:
+
+/home/ec2-user/CompanyA/
+├── Employees/
+│   └── Schedules.csv
+├── Finance/
+│   └── Salary.csv
+├── HR/
+│   ├── Assessments.csv
+│   └── Managers.csv
+├── IA/
+├── Management/
+│   ├── Promotions.csv
+│   └── Sections.csv
+└── SharedFolders.csv
+
+Task 1: Connect to Amazon Linux EC2 Instance via SSH
+
+
+
+
+
+Access the AWS Management Console:
+
+
+
+
+
+Choose Start Lab and wait for lab status: ready.
+
+
+
+Open the AWS console by selecting AWS.
+
+
+
+For Windows users:
+
+
+
+
+
+Download the labsuser.ppk file from the Details menu.
+
+
+
+Note the PublicIP address.
+
+
+
+Use PuTTY to connect (configure as per AWS documentation).
+
+
+
+For macOS/Linux users:
+
+
+
+
+
+Use the terminal with the provided SSH key and PublicIP.
+
+Task 2: Create a Backup
+
+
+
+
+
+Verify the current directory:
+
+pwd
+
+Expected Output:
+
+/home/ec2-user
+
+
+
+Validate the CompanyA folder structure:
+
+ls -R CompanyA
+
+Expected Output:
+
+CompanyA/:
+Employees Finance HR IA Management SharedFolders
+
+CompanyA/Employees:
+Schedules.csv
+
+CompanyA/Finance:
+Salary.csv
+
+CompanyA/HR:
+Assessments.csv Managers.csv
+
+CompanyA/IA:
+
+CompanyA/Management:
+Promotions.csv Sections.csv
+
+
+
+Create a compressed backup of the CompanyA folder:
+
+tar -cvpzf backup.CompanyA.tar.gz CompanyA
+
+Expected Output:
+
+CompanyA/
+CompanyA/Management/
+CompanyA/Management/Sections.csv
+CompanyA/Management/Promotions.csv
+CompanyA/Employees/
+CompanyA/Employees/Schedules.csv
+CompanyA/Finance/
+CompanyA/Finance/Salary.csv
+CompanyA/HR/
+CompanyA/HR/Managers.csv
+CompanyA/HR/Assessments.csv
+CompanyA/IA/
+CompanyA/SharedFolders/
+
+
+
+Verify the backup file:
+
+ls
+
+Expected Output:
+
+backup.CompanyA.tar.gz CompanyA
+
+Task 3: Log the Backup
+
+
+
+
+
+Navigate to the CompanyA folder:
+
+cd /home/ec2-user/CompanyA
+
+
+
+Create an empty backups.csv file:
+
+touch SharedFolders/backups.csv
+
+
+
+Log the backup details (date, time, file name):
+
+echo "25 Aug 25 2021, 16:59, backup.CompanyA.tar.gz" | sudo tee SharedFolders/backups.csv
+
+Expected Output:
+
+25 Aug 25 2021, 16:59, backup.CompanyA.tar.gz
+
+
+
+Display the log file content:
+
+cat SharedFolders/backups.csv
+
+Expected Output:
+
+25 Aug 25 2021, 16:59, backup.CompanyA.tar.gz
+
+Task 4: Move the Backup File
+
+
+
+
+
+Confirm the current directory:
+
+pwd
+
+Expected Output:
+
+/home/ec2-user/CompanyA
+
+
+
+Move the backup file to the IA folder:
+
+mv ../backup.CompanyA.tar.gz IA/
+
+
+
+Verify the file was moved:
+
+ls IA
+
+Expected Output:
+
+backup.CompanyA.tar.gz
+
+Lab Completion
+
+
+
+
+
+End the lab by selecting End Lab and confirming with Yes.
+
+
+
+Close the panel using the X button.
+
+Notes
+
+
+
+
+
+The tee command writes output to both the terminal and a file, used with the | redirector.
+
+
+
+AWS service restrictions may limit actions to those required for the lab.
+
+
+
+The backup file (backup.CompanyA.tar.gz) can be copied and extracted to restore the folder structure elsewhere.
+
+Conclusion
+
+This lab demonstrates essential file management skills on a Linux EC2 instance, including creating compressed backups, logging operations, and transferring files. These tasks are fundamental for system administration and data management in cloud environments.
