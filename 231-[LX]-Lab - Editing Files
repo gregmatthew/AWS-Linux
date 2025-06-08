@@ -1,0 +1,83 @@
+markdown
+# Lab: Editing Files in Linux (Vim and Nano)
+
+## Overview
+This lab focused on learning basic file editing in Linux using two popular text editors: **Vim** and **Nano**. The exercises included creating, editing, and saving files, as well as practicing essential commands in both editors.
+
+## Lab Objectives
+- Use `vimtutor` to complete introductory tasks (Lessons 1-3).
+- Create and edit files in **Vim** (`helloworld`).
+- Create and edit files in **Nano** (`cloudworld`).
+- Practice essential commands (e.g., saving, quitting, undo, line deletion).
+
+---
+
+## Tasks Completed
+
+### Task 1: Connect to Amazon Linux EC2 Instance
+- Connected to an EC2 instance via SSH (PuTTY for Windows users).
+- Retrieved credentials and public IP address from the lab environment.
+
+### Task 2: Run the Vim Tutorial (`vimtutor`)
+- Executed `vimtutor` in the terminal to learn Vim basics.
+- Completed Lessons 1-3, covering:
+  - Cursor movement (`h`, `j`, `k`, `l`).
+  - Insert mode (`i`), saving (`:w`), and quitting (`:q`).
+- Exited the tutorial with `:q!`.
+
+### Task 3: Edit a File in Vim
+1. Created a file named `helloworld` using `vim helloworld`.
+2. Added the following text in insert mode (`i`):
+Hello world!
+This is my first file in Linux and I am editing it in Vim!
+
+text
+3. Saved changes with `:wq` and reopened the file to append:
+I learned how to create a file, edit and save them too!
+
+text
+4. Practiced advanced commands:
+- Delete line: `dd`
+- Undo: `u`
+- Save without quitting: `:w`
+
+### Task 4: Edit a File in Nano
+1. Created a file named `cloudworld` using `nano cloudworld`.
+2. Added text directly (no insert mode required):
+We are using nano this time! We can simply start typing! No insert mode needed.
+
+text
+3. Saved with `Ctrl+O` and exited with `Ctrl+X`.
+4. Verified the file content by reopening it in Nano.
+
+---
+
+## Key Commands Learned
+### Vim
+| Command          | Action                          |
+|------------------|---------------------------------|
+| `vimtutor`       | Launch Vim tutorial.            |
+| `i`              | Enter insert mode.              |
+| `ESC`            | Exit insert mode.               |
+| `:w`             | Save file.                      |
+| `:q`             | Quit Vim.                       |
+| `:wq`            | Save and quit.                  |
+| `dd`             | Delete current line.            |
+| `u`              | Undo last action.               |
+
+### Nano
+| Command          | Action                          |
+|------------------|---------------------------------|
+| `Ctrl+O`         | Save file.                      |
+| `Ctrl+X`         | Exit Nano.                      |
+
+---
+
+## Lab Duration
+- **Time spent**: ~1 hour (as per lab instructions).
+
+---
+
+## Notes
+- AWS service restrictions applied during the lab (limited to required actions).
+- Lab environment was terminated after completion.
