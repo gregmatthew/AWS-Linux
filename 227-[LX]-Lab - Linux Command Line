@@ -1,0 +1,117 @@
+Linux Command Line Lab - Course 227
+Overview
+This lab focuses on fundamental Linux command line operations and system administration tasks.
+Learning Objectives
+
+Master basic Linux command line navigation
+Understand file and directory operations
+Practice text processing and file manipulation
+Learn system monitoring and process management
+
+Lab Exercises
+Exercise 1: File System Navigation
+bash# Navigate to home directory
+cd ~
+
+# List files with detailed information
+ls -la
+
+# Show current working directory
+pwd
+
+# Create directory structure
+mkdir -p projects/lab1/data
+Exercise 2: File Operations
+bash# Create a new file
+touch example.txt
+
+# Copy files
+cp example.txt backup.txt
+
+# Move/rename files
+mv backup.txt example_backup.txt
+
+# Remove files
+rm example_backup.txt
+Exercise 3: Text Processing
+bash# View file contents
+cat filename.txt
+
+# Search within files
+grep "pattern" filename.txt
+
+# Count lines, words, characters
+wc filename.txt
+
+# Sort file contents
+sort filename.txt
+
+# Display first/last lines
+head -n 10 filename.txt
+tail -n 10 filename.txt
+Exercise 4: File Permissions
+bash# Check file permissions
+ls -l filename.txt
+
+# Change file permissions
+chmod 755 filename.txt
+
+# Change file ownership
+chown user:group filename.txt
+Exercise 5: Process Management
+bash# List running processes
+ps aux
+
+# Display system processes
+top
+
+# Kill a process
+kill PID
+
+# Run process in background
+command &
+
+# Check system resources
+df -h
+free -h
+Exercise 6: Archive and Compression
+bash# Create tar archive
+tar -czf archive.tar.gz directory/
+
+# Extract tar archive
+tar -xzf archive.tar.gz
+
+# Create zip archive
+zip -r archive.zip directory/
+
+# Extract zip archive
+unzip archive.zip
+Commands Used
+CommandDescriptionExamplelsList directory contentsls -lacdChange directorycd /home/userpwdPrint working directorypwdmkdirCreate directorymkdir newdircpCopy files/directoriescp file1 file2mvMove/rename filesmv oldname newnamermRemove files/directoriesrm filenamecatDisplay file contentscat file.txtgrepSearch text patternsgrep "word" file.txtchmodChange permissionschmod 755 filepsList processesps auxtarArchive filestar -czf archive.tar.gz dir/
+
+Key Findings
+
+Successfully navigated the Linux file system
+Completed all file manipulation tasks
+Demonstrated understanding of permissions
+Practiced process management commands
+
+Files Created
+
+example.txt - Sample text file for practice
+backup_script.sh - Backup automation script
+system_info.txt - System information output
+
+Conclusion
+This lab provided hands-on experience with essential Linux command line operations. The exercises covered file system navigation, text processing, permissions management, and basic system administration tasks.
+Additional Resources
+
+Linux Command Line Cheat Sheet
+Man Pages Online
+Linux Documentation Project
+
+
+Course: 227
+Lab Type: Linux Command Line
+Date Completed: [Add your completion date]
+Student: [Your name]
