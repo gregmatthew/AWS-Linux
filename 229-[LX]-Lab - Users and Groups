@@ -1,0 +1,200 @@
+Linux Users and Groups Lab
+Overview
+This lab demonstrates fundamental user and group management operations in Linux systems. The exercises cover creating, modifying, and managing user accounts and groups, as well as understanding permission systems.
+Lab Objectives
+
+Create and manage user accounts
+Create and manage groups
+Assign users to groups
+Modify user properties
+Understand file permissions and ownership
+Practice sudo configuration
+
+Prerequisites
+
+Linux system with root/sudo access
+Basic command line knowledge
+Understanding of Linux file system structure
+
+Lab Exercises
+Exercise 1: User Account Management
+1.1 Create New Users
+bash# Create user accounts
+sudo useradd -m -s /bin/bash alice
+sudo useradd -m -s /bin/bash bob
+sudo useradd -m -s /bin/bash charlie
+
+# Set passwords for users
+sudo passwd alice
+sudo passwd bob
+sudo passwd charlie
+1.2 View User Information
+bash# Display user information
+id alice
+cat /etc/passwd | grep alice
+finger alice  # if finger is installed
+1.3 Modify User Accounts
+bash# Change user's shell
+sudo usermod -s /bin/zsh alice
+
+# Change user's home directory
+sudo usermod -d /home/alice_new -m alice
+
+# Lock/unlock user account
+sudo usermod -L bob    # Lock
+sudo usermod -U bob    # Unlock
+Exercise 2: Group Management
+2.1 Create Groups
+bash# Create new groups
+sudo groupadd developers
+sudo groupadd admins
+sudo groupadd users_group
+2.2 Add Users to Groups
+bash# Add users to groups
+sudo usermod -a -G developers alice
+sudo usermod -a -G developers bob
+sudo usermod -a -G admins alice
+sudo usermod -a -G users_group charlie
+2.3 View Group Information
+bash# Display group information
+groups alice
+cat /etc/group | grep developers
+getent group developers
+Exercise 3: File Permissions and Ownership
+3.1 Create Test Files and Directories
+bash# Create test directory structure
+sudo mkdir -p /shared/{developers,admins,general}
+sudo touch /shared/developers/project1.txt
+sudo touch /shared/admins/config.txt
+sudo touch /shared/general/readme.txt
+3.2 Set Ownership and Permissions
+bash# Set group ownership
+sudo chgrp developers /shared/developers
+sudo chgrp admins /shared/admins
+sudo chgrp users_group /shared/general
+
+# Set permissions
+sudo chmod 770 /shared/developers
+sudo chmod 750 /shared/admins
+sudo chmod 755 /shared/general
+
+# Set file ownership
+sudo chown alice:developers /shared/developers/project1.txt
+sudo chown root:admins /shared/admins/config.txt
+sudo chown charlie:users_group /shared/general/readme.txt
+Exercise 4: Advanced User Management
+4.1 User Account Policies
+bash# Set password expiry
+sudo chage -M 90 alice  # Max 90 days
+sudo chage -W 7 alice   # Warn 7 days before expiry
+
+# View password information
+sudo chage -l alice
+4.2 Sudo Configuration
+bash# Add user to sudo group
+sudo usermod -a -G sudo alice
+
+# Create custom sudo rule (edit /etc/sudoers)
+# alice ALL=(ALL) NOPASSWD: /bin/systemctl status *
+Exercise 5: Verification and Testing
+5.1 Test User Access
+bash# Switch users and test permissions
+su - alice
+cd /shared/developers
+touch test_file.txt
+exit
+
+su - bob
+cd /shared/developers
+ls -la
+exit
+5.2 Verify Group Memberships
+bash# Check all group memberships
+for user in alice bob charlie; do
+    echo "Groups for $user:"
+    groups $user
+    echo
+done
+Lab Results
+Created Users
+
+alice: Developer user with admin privileges
+bob: Developer user
+charlie: General user
+
+Created Groups
+
+developers: For development team members
+admins: For system administrators
+users_group: For general users
+
+Directory Structure
+/shared/
+├── developers/ (770, :developers)
+│   └── project1.txt (alice:developers)
+├── admins/ (750, :admins)
+│   └── config.txt (root:admins)
+└── general/ (755, :users_group)
+    └── readme.txt (charlie:users_group)
+
+DirectoryOwnerGroupPermissionsPurpose/shared/developersrootdevelopers770Development files/shared/adminsrootadmins750Admin configuration/shared/generalrootusers_group755General access files
+Key Commands Used
+User Management
+
+useradd - Add user accounts
+usermod - Modify user accounts
+userdel - Delete user accounts
+passwd - Set user passwords
+chage - Change password aging information
+
+Group Management
+
+groupadd - Add groups
+groupmod - Modify groups
+groupdel - Delete groups
+groups - Show user group memberships
+getent group - Display group information
+
+Permission Management
+
+chmod - Change file permissions
+chown - Change file ownership
+chgrp - Change group ownership
+ls -l - List files with permissions
+
+Troubleshooting
+Common Issues
+
+Permission Denied: Ensure user has proper group membership
+User Already Exists: Check existing users with cat /etc/passwd
+Group Not Found: Verify group exists with getent group
+
+Cleanup Commands
+bash# Remove test users
+sudo userdel -r alice
+sudo userdel -r bob
+sudo userdel -r charlie
+
+# Remove test groups
+sudo groupdel developers
+sudo groupdel admins
+sudo groupdel users_group
+
+# Remove test directories
+sudo rm -rf /shared
+Conclusion
+This lab successfully demonstrated:
+
+User account creation and management
+Group creation and user assignment
+File permission and ownership configuration
+Security best practices for user management
+
+The exercises provided hands-on experience with essential Linux system administration tasks related to user and group management.
+Additional Resources
+
+man useradd - User addition manual
+man chmod - File permission manual
+/etc/passwd - User account information
+/etc/group - Group information
+/etc/sudoers - Sudo configuration
