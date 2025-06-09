@@ -1,0 +1,213 @@
+245-[LX]-Lab - Managing Log Files
+
+Overview
+
+This lab guides you through managing log files on a Linux system, specifically reviewing the lastlog and secure log outputs on an Amazon Linux EC2 instance. The lab is part of a broader course and assumes familiarity with previous courseware.
+
+Objectives
+
+In this lab, you will:
+
+
+
+
+
+Review the lastlog and secure log outputs of a Linux machine.
+
+Duration
+
+Approximately 5-10 minutes.
+
+AWS Service Restrictions
+
+Access to AWS services and actions in this lab environment is restricted to those required to complete the lab instructions. Attempting to access other services or perform unauthorized actions may result in errors.
+
+Lab Instructions
+
+Accessing the AWS Management Console
+
+
+
+
+
+Choose Start Lab at the top of the instructions to launch the lab environment. A Start Lab panel will display the lab status.
+
+
+
+
+
+Tip: If more time is needed, select Start Lab again to restart the timer.
+
+
+
+Wait for the message lab status: ready, then close the Start Lab panel by selecting the X.
+
+
+
+Choose AWS at the top of the instructions to open the AWS Management Console in a new browser tab. The system will automatically log you in.
+
+
+
+
+
+Tip: If the tab does not open, check for a browser banner or icon indicating pop-up restrictions. Select the banner/icon and choose Allow pop-ups.
+
+
+
+Arrange the AWS Management Console tab alongside the instructions for easier reference.
+
+Task 1: Use SSH to Connect to an Amazon Linux EC2 Instance
+
+In this task, you will connect to an Amazon Linux EC2 instance using an SSH utility. Instructions vary slightly for Windows and macOS/Linux users.
+
+Windows Users: Using SSH to Connect
+
+
+
+
+
+From the Details drop-down menu above the instructions, select Show to open the Credentials window.
+
+
+
+Select Download PPK and save the labsuser.ppk file (typically to your Downloads directory).
+
+
+
+Note the PublicIP address.
+
+
+
+Close the Details panel by selecting the X.
+
+
+
+Download PuTTY if not already installed: PuTTY Download.
+
+
+
+Open putty.exe.
+
+
+
+Configure your PuTTY session by following: Connect to your Linux instance using PuTTY.
+
+
+
+Proceed to Task 2.
+
+macOS/Linux Users
+
+
+
+
+
+Use your preferred SSH client and the provided credentials to connect to the EC2 instance. Refer to the AWS documentation for guidance: Connect to your Linux instance.
+
+Task 2: Review Secure Log Files
+
+In this task, you will use Linux tools to review the secure log files and the lastlog command to check previous logins.
+
+
+
+
+
+Verify you are in the companyA home folder by running:
+
+pwd
+
+If not in the companyA folder, navigate to it:
+
+cd companyA
+
+
+
+Review the secure log file by running:
+
+sudo less /tmp/log/secure
+
+
+
+
+
+Output: The command displays authentication failures, including:
+
+
+
+
+
+IP address of the access attempt
+
+
+
+Authentication failure details
+
+
+
+Port used
+
+
+
+Note: Typically, the secure log file is located at /var/log/secure. In this lab, a sample file is provided at /tmp/log/secure.
+
+
+
+Exit the less program by typing:
+
+q
+
+
+
+View the last login times for all users on the machine:
+
+sudo lastlog
+
+
+
+
+
+Output: Displays a list of users and their most recent login date/time. Example users include:
+
+
+
+
+
+root: Never logged in
+
+
+
+bin: Never logged in
+
+
+
+daemon: Never logged in
+
+Lab Complete
+
+Congratulations! You have completed the lab.
+
+
+
+
+
+Select End Lab at the top of the instructions page, then select Yes to confirm.
+
+
+
+A panel will indicate: "DELETE has been initiated... You may close this message box now."
+
+
+
+Close the panel by selecting the X in the top right corner.
+
+Notes
+
+
+
+
+
+All labs rely on previous courseware and lab information.
+
+
+
+Ensure you have the necessary permissions and tools (e.g., PuTTY for Windows) before starting.
