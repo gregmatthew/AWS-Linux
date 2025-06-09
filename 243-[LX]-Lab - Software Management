@@ -1,0 +1,383 @@
+AWS Software Management Lab
+
+This lab focuses on managing software on an Amazon Linux EC2 instance using the yum package manager and installing the AWS Command Line Interface (AWS CLI). Below is a structured guide to the lab's objectives, tasks, and commands.
+
+Objectives
+
+
+
+
+
+Update a Linux machine using the yum package manager.
+
+
+
+Roll back or downgrade a previously updated package.
+
+
+
+Install the AWS Command Line Interface (AWS CLI).
+
+Duration
+
+Approximately 35 minutes.
+
+Prerequisites
+
+
+
+
+
+Access to an AWS lab environment with an Amazon Linux EC2 instance.
+
+
+
+SSH utility (e.g., PuTTY for Windows or terminal for macOS/Linux).
+
+
+
+Basic familiarity with Linux commands and AWS services.
+
+AWS Service Restrictions
+
+Access is limited to services and actions required for this lab. Attempting unauthorized actions may result in errors.
+
+
+
+Lab Instructions
+
+Task 1: Connect to the Amazon Linux EC2 Instance via SSH
+
+
+
+
+
+Start the Lab:
+
+
+
+
+
+Click Start Lab at the top of the lab instructions.
+
+
+
+Wait for the Lab status: ready message, then close the Start Lab panel.
+
+
+
+Open the AWS Management Console by clicking AWS (opens in a new tab).
+
+
+
+Arrange the console and instructions side by side for ease of use.
+
+
+
+Windows Users (SSH with PuTTY):
+
+
+
+
+
+From the Details dropdown, select Show to view credentials.
+
+
+
+Download the labsuser.ppk file and note the PublicIP address.
+
+
+
+If PuTTY is not installed, download it from PuTTY's official site.
+
+
+
+Open putty.exe and configure the session using the AWS guide for PuTTY.
+
+
+
+Connect to the EC2 instance.
+
+
+
+macOS/Linux Users:
+
+
+
+
+
+Use the terminal to SSH into the instance with the provided credentials and PublicIP.
+
+
+
+Task 2: Update the Linux Machine
+
+Use the yum package manager to update the system and install the httpd package.
+
+# Ensure you are in the companyA directory
+pwd
+cd companyA
+
+# Check for available updates
+sudo yum -y check-update
+
+# Apply security updates
+sudo yum update --security
+
+# Upgrade all packages
+sudo yum -y upgrade
+
+# Install httpd package
+sudo yum install httpd -y
+
+Note: If the instance is already up to date, run the commands for practice. The sudo yum -y upgrade command lists all updates applied, and sudo yum install httpd -y shows the update history.
+
+
+
+Task 3: Roll Back a Package
+
+Downgrade a package using yum history commands.
+
+# Verify directory
+pwd
+cd companyA
+
+# View yum transaction history
+sudo yum history list
+
+
+
+
+
+Note the ID (e.g., 2) for the transaction labeled EC2... from the output.
+
+# View details of the specific transaction (replace <ID> with the noted ID)
+sudo yum history info <ID>
+
+# Undo the transaction (replace <ID> with the noted ID)
+sudo yum -y history undo <ID>
+
+Output Example:
+
+[ec2-user@companyA]$ sudo yum history list
+ID | Login user | Date and time | Action(s) | Altered
+2 | EC2... <ec2-user> | <date and time> | Install | 9
+1 | System <unset> | <date and time> | I, O, U | 18
+
+[ec2-user@companyA]$ sudo yum history info 2
+Transaction ID : 2
+Begin time : <date and time>
+User : EC2 Default user <ec2-user>
+Return-code : Success
+Command Line : install httpd -y
+
+Note: The undo command reverts the transaction, marking packages as Dep-Install.
+
+
+
+Task 4: Install the AWS CLI on Red Hat Linux
+
+Install the AWS CLI on the EC2 instance.
+
+
+
+
+
+Verify Python:
+
+python3 --version
+
+
+
+
+
+Requires Python 3.3+ or Python 2.6.5+. Install Python if necessary.
+
+
+
+Check for pip:
+
+pip3 --version
+
+
+
+
+
+If pip: command not found, proceed to install the AWS CLI manually.
+
+
+
+Download and Install AWS CLI:
+
+# Download the AWS CLI installer
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+# Unzip the installer
+unzip awscliv2.zip
+
+# Run the installer
+sudo ./aws/install
+
+
+
+Verify Installation:
+
+aws help
+
+
+
+
+
+Press q to exit the help menu.
+
+
+
+Task 5: Configure the AWS CLI
+
+Configure the AWS CLI with credentials and settings.
+
+
+
+
+
+Retrieve Credentials:
+
+
+
+
+
+From the Details dropdown, select Show > AWS CLI > Show.
+
+
+
+Copy the aws_access_key_id, aws_secret_access_key, and aws_session_token.
+
+
+
+Configure AWS CLI:
+
+aws configure
+
+
+
+
+
+At the prompts:
+
+
+
+
+
+AWS Access Key ID: Leave blank, press Enter.
+
+
+
+AWS Secret Access Key: Leave blank, press Enter.
+
+
+
+Default region name: Enter us-west-2.
+
+
+
+Default output format: Enter json.
+
+
+
+Edit Credentials File:
+
+sudo nano ~/.aws/credentials
+
+
+
+
+
+Paste the credentials, e.g.:
+
+[default]
+aws_access_key_id=<your_access_key_id>
+aws_secret_access_key=<your_secret_access_key>
+aws_session_token=<your_session_token>
+
+
+
+Save (Ctrl+O, Enter) and exit (Ctrl+X).
+
+
+
+Verify Configuration:
+
+
+
+
+
+Find the EC2 instance ID in the AWS Management Console:
+
+
+
+
+
+Navigate to EC2 > Instances (running).
+
+
+
+Copy the Instance ID for the Command Host.
+
+
+
+Run the following command (replace <instance-id> with your Instance ID):
+
+aws ec2 describe-instance-attribute --instance-id <instance-id> --attribute instanceType
+
+
+
+Expected output:
+
+{
+    "InstanceId": "<instance-id>",
+    "InstanceType": {
+        "Value": "t3.micro"
+    }
+}
+
+
+
+Lab Completion
+
+
+
+
+
+End the lab:
+
+
+
+
+
+Click End Lab at the top and confirm with Yes.
+
+
+
+Close the panel when prompted.
+
+
+
+Congratulations! You have completed the AWS Software Management Lab.
+
+
+
+Notes
+
+
+
+
+
+Some commands require sudo if not running as root.
+
+
+
+The lab environment may already be up to date, but running commands reinforces learning.
+
+
+
+Ensure credentials are securely handled and not exposed in public repositories.
