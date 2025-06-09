@@ -1,0 +1,328 @@
+239-[LX]-Lab - Managing Processes
+
+Overview
+
+This lab focuses on managing processes on an Amazon Linux EC2 instance using AWS. It involves creating a log file for process listings, using the top command, and setting up a cron job for automated auditing tasks. The lab is designed to take approximately 45 minutes to complete.
+
+Prerequisites
+
+
+
+
+
+Familiarity with previous courseware and lab information.
+
+
+
+Access to an AWS Management Console and an Amazon Linux EC2 instance.
+
+
+
+SSH utility (e.g., PuTTY for Windows or terminal for macOS/Linux).
+
+Objectives
+
+
+
+
+
+Create a log file for process listings.
+
+
+
+Use the top command to monitor system processes.
+
+
+
+Establish a cron job to run auditing commands daily.
+
+AWS Service Restrictions
+
+Access to AWS services and actions may be limited to those required for the lab. Attempting unauthorized actions may result in errors.
+
+
+
+Task 1: Connect to an Amazon Linux EC2 Instance via SSH
+
+Instructions
+
+
+
+
+
+Start the Lab:
+
+
+
+
+
+At the top of the lab instructions, click Start Lab to launch the environment.
+
+
+
+Wait for the lab status: ready message, then close the Start Lab panel by clicking X.
+
+
+
+Click AWS to open the AWS Management Console in a new browser tab. The system will log you in automatically.
+
+
+
+Tip: If the browser blocks pop-ups, allow them via the browser's banner or icon.
+
+
+
+Arrange the AWS Management Console tab alongside the instructions for easier navigation.
+
+
+
+Windows Users: SSH with PuTTY:
+
+
+
+
+
+From the Details dropdown, select Show to open the Credentials window.
+
+
+
+Download the labsuser.ppk file (typically saved to your Downloads directory).
+
+
+
+Note the PublicIP address of the EC2 instance.
+
+
+
+Close the Details panel by clicking X.
+
+
+
+If PuTTY is not installed, download it from the official site.
+
+
+
+Open putty.exe and configure the session as described in Connect to your Linux instance using PuTTY.
+
+
+
+Proceed to Task 2.
+
+
+
+macOS/Linux Users:
+
+
+
+
+
+Use the terminal to SSH into the EC2 instance with the provided credentials and PublicIP address.
+
+
+
+Task 2: Create a List of Processes
+
+Objective
+
+Create a log file named processes.csv containing process information, excluding processes run by the root user or those with [ or ] in the command name.
+
+Instructions
+
+
+
+
+
+Verify you are in the /home/ec2-user/companyA directory:
+
+pwd
+
+If not, navigate to the directory:
+
+cd /home/ec2-user/companyA
+
+
+
+Generate the processes.csv file, filtering out root user processes and commands containing [ or ]:
+
+sudo ps -aux | grep -v root | grep -v -E '\[|\]' | sudo tee sharedFolders/processes.csv
+
+
+
+Validate the output:
+
+cat sharedFolders/processes.csv
+
+Notes
+
+
+
+
+
+The ps -aux command lists all running processes.
+
+
+
+grep -v root excludes processes owned by the root user.
+
+
+
+grep -v -E '\[|\]' excludes commands containing [ or ].
+
+
+
+tee writes the output to sharedFolders/processes.csv.
+
+
+
+Task 3: Use the top Command
+
+Objective
+
+Use the top command to display active processes and threads, and observe system performance metrics.
+
+Instructions
+
+
+
+
+
+Run the top command:
+
+top
+
+
+
+Observe the output, which includes:
+
+
+
+
+
+Total number of tasks.
+
+
+
+Number of running, sleeping, stopped, and zombie tasks (displayed on the second line, under "Tasks").
+
+
+
+Note the number of running tasks in the output (e.g., the lab example shows 1 running task out of 33 total tasks).
+
+
+
+Exit top by pressing q.
+
+
+
+Check top version and usage information:
+
+top -hv
+
+Notes
+
+
+
+
+
+The top command provides real-time system performance data and process details.
+
+
+
+Tasks can be in running, sleeping, stopped, or zombie states.
+
+
+
+Task 4: Create a Cron Job
+
+Objective
+
+Set up a cron job to create an audit file (filteredaudit.csv) daily, replacing .csv extensions with #####.csv for all .csv files in the directory.
+
+Instructions
+
+
+
+
+
+Verify you are in the /home/ec2-user/companyA directory:
+
+pwd
+
+If not, navigate to the directory:
+
+cd /home/ec2-user/companyA
+
+
+
+Open the crontab editor:
+
+sudo crontab -e
+
+
+
+Enter insert mode in the editor (e.g., press i in vi/vim).
+
+
+
+Add the following lines to the crontab file:
+
+SHELL=/bin/bash
+PATH=/usr/bin:/bin:/usr/local/bin
+MAILTO=root
+0 * * * * 15-18 $(find . -name "*.csv" | sed -e 's/\.csv/#####.csv/g' > /home/ec2-user/companyA/sharedFolders/filteredaudit.csv)
+
+
+
+Save and exit the editor:
+
+
+
+
+
+Press ESC.
+
+
+
+Type :wq and press Enter.
+
+
+
+Validate the cron job:
+
+sudo crontab -l
+
+Ensure the output matches the crontab entries exactly.
+
+Notes
+
+
+
+
+
+The cron job runs daily at midnight (0 * * * *) for the hours 15–18 (likely a typo in the original; this may need adjustment based on requirements).
+
+
+
+The find command locates .csv files, and sed replaces .csv with #####.csv in the output file filteredaudit.csv.
+
+
+
+Use sudo if you are not the root user.
+
+
+
+Lab Completion
+
+
+
+
+
+Verify all tasks are completed as per the instructions.
+
+
+
+Ensure the processes.csv and filteredaudit.csv files are created in the sharedFolders directory.
+
+
+
+Confirm the cron job is correctly configured and listed in crontab -l.
