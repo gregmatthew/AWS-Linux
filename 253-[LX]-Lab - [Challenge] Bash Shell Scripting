@@ -1,0 +1,149 @@
+Bash Shell Scripting Challenge Lab
+
+Overview
+
+This repository contains my solution to the Bash Shell Scripting Challenge Lab from the 253-[LX]-Lab series. The lab focuses on creating a Bash script to generate 25 empty files with specific naming conventions and dynamic number increments.
+
+Objectives
+
+
+
+
+
+Create a directory to store the files.
+
+
+
+Write a Bash script that:
+
+
+
+
+
+Creates 25 empty (0 KB) files using the touch command.
+
+
+
+Names the files in the format <yourName><number>, <yourName><number+1>, <yourName><number*2>, etc.
+
+
+
+Ensures each run of the script starts numbering from the highest existing number in the directory.
+
+
+
+Avoids hardcoding numbers, using automation to determine the starting number.
+
+
+
+Test the script and validate the output with a directory listing.
+
+Duration
+
+Approximately 55 minutes.
+
+Prerequisites
+
+
+
+
+
+Access to an Amazon Linux EC2 instance via SSH.
+
+
+
+Basic knowledge of Bash scripting and the touch command.
+
+
+
+For Windows users: PuTTY and the labsuser.ppk file for SSH access.
+
+
+
+For macOS/Linux users: Standard SSH client.
+
+Setup Instructions
+
+
+
+
+
+Start the Lab:
+
+
+
+
+
+Launch the lab environment by selecting Start Lab in the lab interface.
+
+
+
+Wait for the lab status: ready message, then close the Start Lab panel.
+
+
+
+Open the AWS Management Console in a new browser tab.
+
+
+
+SSH into the EC2 Instance:
+
+
+
+
+
+Windows Users:
+
+
+
+
+
+Download the labsuser.ppk file from the lab's Details menu.
+
+
+
+Note the PublicIP address of the EC2 instance.
+
+
+
+Use PuTTY to SSH into the instance with the labsuser.ppk file.
+
+
+
+macOS/Linux Users:
+
+
+
+
+
+Use the terminal with the ssh command and the provided key pair to connect to the EC2 instance.
+
+Solution
+
+The Bash script below meets the lab requirements. It creates a directory, checks for existing files with the specified naming pattern, determines the highest number, and generates 25 new empty files with incrementing numbers.
+
+ #!/bin/bash
+
+Replace 'YourName' with your actual name
+
+NAME="YourName"
+
+Create a directory to store the files
+
+mkdir -p file_batch cd file_batch
+
+Find the highest existing number in files named YourName*
+
+max_num=0 for file in ${NAME}*; do if [[ -f "$file" && "$file" =~ ${NAME}([0-9]+) ]]; then num=${BASH_REMATCH[1]} if (( num > max_num )); then max_num=$num fi fi done
+
+Calculate the starting number for the new batch
+
+start_num=$((max_num + 1))
+
+Create 25 new empty files with incrementing numbers
+
+for ((i=0; i<25; i++)); do touch "${NAME}$((start_num + i))" done
+
+Display a long listing of the directory to validate
+
+ls -l
