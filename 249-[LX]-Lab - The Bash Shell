@@ -1,0 +1,335 @@
+AWS Bash Shell Lab: Working with Aliases and PATH Variable
+
+Overview
+
+This lab guides you through creating and using a Bash alias to back up a folder and modifying the PATH environment variable to include a new directory for executables. The lab is designed to be completed in an AWS environment using an Amazon Linux EC2 instance.
+
+Duration: Approximately 30 minutes
+
+Objectives:
+
+
+
+
+
+Create and work with an alias to back up a complete folder.
+
+
+
+Work with the PATH variable and add a new folder to it.
+
+Note: This lab assumes familiarity with prior courseware and lab information. Access to AWS services may be restricted to those required for the lab.
+
+Prerequisites
+
+
+
+
+
+Access to the AWS Management Console.
+
+
+
+An SSH client (e.g., PuTTY for Windows or a terminal for macOS/Linux).
+
+
+
+Basic familiarity with Linux commands and the Bash shell.
+
+Accessing the AWS Management Console
+
+
+
+
+
+Start the Lab:
+
+
+
+
+
+Choose Start Lab at the top of the instructions to launch the lab environment.
+
+
+
+Wait for the Lab status: ready message, then close the Start Lab panel by selecting the X.
+
+
+
+If the timer runs out, select Start Lab again to restart the environment.
+
+
+
+Open AWS Management Console:
+
+
+
+
+
+Choose AWS at the top of the instructions to open the AWS Management Console in a new browser tab.
+
+
+
+The system will automatically log you in.
+
+
+
+Tip: If the browser blocks pop-ups, select the banner or icon at the top and choose Allow pop-ups.
+
+
+
+Arrange the AWS Management Console tab alongside the instructions for easier reference.
+
+Task 1: Use SSH to Connect to an Amazon Linux EC2 Instance
+
+This task involves connecting to an Amazon Linux EC2 instance using SSH. Instructions vary slightly depending on your operating system.
+
+Windows Users
+
+
+
+
+
+Select the Details dropdown menu and choose Show to open the Credentials window.
+
+
+
+Select Download PPK and save the labsuser.ppk file (typically to your Downloads directory).
+
+
+
+Note the PublicIP address of the EC2 instance.
+
+
+
+Close the Details panel by selecting the X.
+
+
+
+If PuTTY is not installed, download it from PuTTY's official site.
+
+
+
+Open putty.exe.
+
+
+
+Configure your PuTTY session by following the instructions at Connect to your Linux instance using PuTTY.
+
+
+
+Proceed to Task 2.
+
+macOS/Linux Users
+
+
+
+
+
+Use the terminal to SSH into the EC2 instance using the provided credentials and PublicIP address. (Refer to AWS documentation for detailed steps if needed.)
+
+Task 2: Create an Alias for a Backup Operation
+
+In this task, you will create a Bash alias to back up a folder using the tar command.
+
+Note: You may need to use sudo if you are not the root user.
+
+
+
+
+
+Verify Current Directory:
+
+pwd
+
+Expected Output:
+
+/home/ec2-user/
+
+
+
+Create the Backup Alias: Create an alias named backup that uses tar to archive and compress a folder.
+
+alias backup='tar -cvzf'
+
+Explanation:
+
+
+
+
+
+-c: Creates a new archive.
+
+
+
+-v: Enables verbose mode to display archived files.
+
+
+
+-z: Compresses the archive using gzip.
+
+
+
+-f: Specifies the archive file name.
+
+
+
+Use the Alias to Back Up a Folder: Back up the CompanyA folder to backup_companyA.tar.gz.
+
+backup backup_companyA.tar.gz CompanyA
+
+Expected Output:
+
+CompanyA/
+CompanyA/Management/
+CompanyA/Management/Sections.csv
+CompanyA/Management/Promotions.csv
+CompanyA/Employees/
+CompanyA/Employees/Schedules.csv
+CompanyA/Finance/
+CompanyA/Finance/salary.csv
+CompanyA/HR/
+CompanyA/HR/Managers.csv
+CompanyA/HR/Assessments.csv
+CompanyA/IA/
+CompanyA/SharedFolders/
+CompanyA/bin/
+CompanyA/bin/hello.sh
+
+This output lists all items in the CompanyA directory, including subfolders (Management, Employees, Finance, HR, IA, SharedFolders, bin) and files (Sections.csv, Promotions.csv, Schedules.csv, salary.csv, Managers.csv, Assessments.csv, hello.sh).
+
+
+
+Verify the Archive: Check that the archive was created.
+
+ls
+
+Expected Output:
+
+backup_companyA.tar.gz  CompanyA
+
+Task 3: Explore and Update the PATH Environment Variable
+
+In this task, you will explore the PATH environment variable and add a new directory to it to run executables without specifying their full path.
+
+
+
+
+
+Navigate to the bin Folder:
+
+cd /home/ec2-user/CompanyA/bin
+
+Note: You can verify your current directory with pwd if needed.
+
+
+
+Run the hello.sh Script:
+
+./hello.sh
+
+Expected Output:
+
+hello ec2-user
+
+
+
+Navigate to the Parent Folder:
+
+cd ..
+
+Expected Output:
+
+[ec2-user@ip-xxx-xxx-xxx-xxx CompanyA]$
+
+
+
+Run the Script with Full Path:
+
+./bin/hello.sh
+
+Expected Output:
+
+hello ec2-user
+
+
+
+Attempt to Run the Script Directly:
+
+hello.sh
+
+Expected Output:
+
+bash: hello.sh: command not found
+
+Explanation: The script fails to run because the /home/ec2-user/CompanyA/bin directory is not in the PATH variable.
+
+
+
+Display the PATH Variable:
+
+echo $PATH
+
+Expected Output:
+
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin
+
+Note: The PATH variable lists directories where the system searches for executables. The /home/ec2-user/CompanyA/bin directory is not included, so hello.sh must be run with its full path or from its directory.
+
+
+
+Add the bin Folder to PATH:
+
+PATH=$PATH:/home/ec2-user/CompanyA/bin
+
+
+
+Run the Script Again:
+
+hello.sh
+
+Expected Output:
+
+hello ec2-user
+
+Explanation: Adding /home/ec2-user/CompanyA/bin to the PATH allows the system to find and execute hello.sh from any directory.
+
+Completing the Lab
+
+
+
+
+
+Select End Lab at the top of the instructions.
+
+
+
+Confirm by selecting Yes.
+
+
+
+Wait for the panel to display "DELETE has been initiated... You may close this message box now."
+
+
+
+Close the panel by selecting the X in the top right corner.
+
+Conclusion
+
+Congratulations! You have successfully:
+
+
+
+
+
+Created a Bash alias to back up a folder using tar.
+
+
+
+Modified the PATH environment variable to include a new directory for executables.
+
+
+
+Connected to an Amazon Linux EC2 instance and executed scripts.
+
+This lab demonstrates practical Bash shell skills for managing files and executables in a Linux environment.
