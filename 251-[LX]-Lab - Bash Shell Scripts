@@ -1,0 +1,195 @@
+Bash Shell Scripts Lab: Automating Folder Backup
+
+Overview
+
+This lab focuses on creating a Bash shell script to automate the backup of a folder on an Amazon Linux EC2 instance. The lab is part of a broader course and assumes familiarity with previous materials.
+
+Objectives
+
+
+
+
+
+Create a Bash script to automate the backup of the CompanyA folder as a compressed archive.
+
+Duration
+
+Approximately 25 minutes.
+
+Prerequisites
+
+
+
+
+
+Access to an AWS Management Console with an Amazon Linux EC2 instance.
+
+
+
+SSH utility (e.g., PuTTY for Windows or terminal for macOS/Linux).
+
+
+
+Basic knowledge of Bash scripting and Linux commands.
+
+Instructions
+
+Task 1: Connect to the Amazon Linux EC2 Instance
+
+
+
+
+
+Start the Lab:
+
+
+
+
+
+Choose Start Lab from the lab interface to launch the environment.
+
+
+
+Wait for the Lab status: ready message, then close the Start Lab panel.
+
+
+
+Open the AWS Management Console by selecting AWS from the lab interface.
+
+
+
+SSH Connection (Windows Users):
+
+
+
+
+
+From the Details menu, select Show to view credentials.
+
+
+
+Download the labsuser.ppk file and note the Public IP address.
+
+
+
+Use PuTTY to connect to the EC2 instance (refer to AWS documentation for detailed PuTTY configuration).
+
+
+
+Skip to Task 2 after connecting.
+
+
+
+SSH Connection (macOS/Linux Users):
+
+
+
+
+
+Use the terminal to SSH into the EC2 instance with the provided Public IP and credentials.
+
+Task 2: Write a Bash Shell Script
+
+This task involves creating a Bash script (backup.sh) to back up the CompanyA folder as a compressed archive named in the format YYYY_MM_DD_HH_MM_SS-backup-CompanyA.tar.gz.
+
+
+
+
+
+Verify Current Directory:
+
+pwd
+
+Expected Output:
+
+/home/ec2-user/
+
+
+
+Create the Script File:
+
+touch backup.sh
+
+
+
+Set Execute Permissions:
+
+sudo chmod 755 backup.sh
+
+
+
+Edit the Script:
+
+
+
+
+
+Open backup.sh in a text editor (e.g., vi):
+
+vi backup.sh
+
+
+
+Enter insert mode by typing i.
+
+
+
+Add the following script content:
+
+#!/bin/bash
+DAY="$(date +%Y_%m_%d_%H_%M_%S)"
+BACKUP="/home/$USER/backups/$DAY-backup-CompanyA.tar.gz"
+tar -czvpf $BACKUP /home/$USER/CompanyA
+
+
+
+Save and exit the editor (Esc, then :wq, then Enter).
+
+
+
+Run the Script:
+
+./backup.sh
+
+Expected Output:
+
+tar: Removing leading '/' from member names
+/home/ec2-user/CompanyA/
+/home/ec2-user/CompanyA/Management/
+/home/ec2-user/CompanyA/Management/Sections.csv
+/home/ec2-user/CompanyA/Management/Promotions.csv
+/home/ec2-user/CompanyA/Employees/
+/home/ec2-user/CompanyA/Employees/Schedules.csv
+/home/ec2-user/CompanyA/Finance/
+/home/ec2-user/CompanyA/Finance/Salary.csv
+/home/ec2-user/CompanyA/HR/
+/home/ec2-user/CompanyA/HR/Managers.csv
+/home/ec2-user/CompanyA/HR/Assessments.csv
+/home/ec2-user/CompanyA/IA/
+/home/ec2-user/CompanyA/SharedFolders/
+
+
+
+Verify the Backup:
+
+ls backups/
+
+Expected Output:
+
+2022_05_18_05:55:28_05_55-backup-CompanyA.tar.gz
+
+Notes
+
+
+
+
+
+The script can be scheduled using cron for daily backups.
+
+
+
+Copying the archive to other servers is beyond the scope of this lab.
+
+Conclusion
+
+This lab demonstrates how to create and execute a Bash script to automate folder backups on an EC2 instance. The script uses the tar command to create a compressed archive with a timestamped filename.
