@@ -1,0 +1,293 @@
+247-[LX]-Lab: Working with Commands
+
+Overview
+
+This lab focuses on practicing Linux commands in an Amazon Linux EC2 instance via SSH, using tools like tee, sort, cut, sed, and the pipe operator. The lab is part of a course that builds on previous materials and takes approximately 30 minutes to complete.
+
+Objectives
+
+
+
+
+
+Use the tee command to direct output to a file and the screen.
+
+
+
+Use the sort command to reorganize the contents of a .csv file.
+
+
+
+Use the cut command to edit file contents.
+
+
+
+Use the sed command for text replacement.
+
+
+
+Use the pipe operator (|) to chain commands.
+
+AWS Service Restrictions
+
+Access to AWS services is limited to those required for the lab. Attempting to access other services or actions may result in errors.
+
+Lab Setup
+
+Accessing the AWS Management Console
+
+
+
+
+
+Choose Start Lab to launch the lab environment.
+
+
+
+Wait for the Lab status: ready message, then close the Start Lab panel.
+
+
+
+Open the AWS Management Console in a new browser tab (allow pop-ups if blocked).
+
+
+
+Arrange the console tab alongside the instructions for easy reference.
+
+Task 1: Connect to an Amazon Linux EC2 Instance via SSH
+
+Windows Users
+
+
+
+
+
+From the Details dropdown, select Show to view credentials.
+
+
+
+Download the labsuser.ppk file (saved to the Downloads directory by default).
+
+
+
+Note the PublicIP address and close the Details panel.
+
+
+
+Download and install PuTTY if not already installed.
+
+
+
+Open putty.exe and configure the session as described in Connect to your Linux instance using PuTTY.
+
+
+
+Connect to the EC2 instance.
+
+Note: macOS/Linux users follow similar steps using their native SSH client (not detailed here).
+
+Lab Tasks
+
+Task 2: Use the tee Command
+
+The tee command reads standard input and writes it to both the screen and a file.
+
+
+
+
+
+Verify the current directory:
+
+pwd
+
+Expected: /home/ec2-user
+
+
+
+Run the tee command to capture the hostname:
+
+hostname | tee file1.txt
+
+Output:
+
+ip-10-0-10-81.us-west-2.compute.internal
+
+The command writes the hostname to file1.txt and displays it on the screen.
+
+
+
+Confirm the file creation:
+
+ls
+
+Output:
+
+companyA  file1.txt
+
+Task 3: Use the sort Command and Pipe Operator
+
+This task involves sorting a .csv file and using the pipe operator to filter content.
+
+
+
+
+
+Verify the current directory:
+
+pwd
+
+
+
+Create a test.csv file:
+
+cat > test.csv
+
+Enter the following, then press CTRL+D:
+
+Factory,1,Paris
+Store,2,Dubai
+Factory,3,Brasilia
+Store,4,Algiers
+Factory,5,Tokyo
+
+
+
+Verify the file creation:
+
+ls
+
+
+
+Sort the test.csv file:
+
+sort test.csv
+
+Output:
+
+Factory,1,Paris
+Factory,3,Brasilia
+Factory,5,Tokyo
+Store,2,Dubai
+Store,4,Algiers
+
+The sort command orders alphabetically by the first column, then numerically by the second.
+
+
+
+Search for the factory in Paris using the pipe operator:
+
+grep Paris test.csv
+
+Output:
+
+Factory,1,Paris
+
+Note: The lab document mentions find | grep Paris test.csv, but grep Paris test.csv is sufficient and correct.
+
+Task 4: Use the cut Command
+
+The cut command extracts sections from text lines based on a delimiter.
+
+
+
+
+
+Verify the current directory:
+
+pwd
+
+
+
+Create a cities.csv file:
+
+cat > cities.csv
+
+Enter the following, then press CTRL+D:
+
+Dallas,Texas
+Seattle,Washington
+Los Angeles,California
+Atlanta,Georgia
+New York,New York
+
+
+
+Extract the first field using cut:
+
+cut -d',' -f1 cities.csv
+
+Output:
+
+Dallas
+Seattle
+Los Angeles
+Atlanta
+New York
+
+The -d',' specifies the comma delimiter, and -f1 selects the first field.
+
+Additional Challenge: Use the sed Command
+
+Replace the first comma with a period in both cities.csv and test.csv using sed.
+
+
+
+
+
+For cities.csv:
+
+sed 's/,/./' cities.csv
+
+Output:
+
+Dallas.Texas
+Seattle.Washington
+Los Angeles.California
+Atlanta.Georgia
+New York.New York
+
+
+
+For test.csv:
+
+sed 's/,/./' test.csv
+
+Output:
+
+Factory.1,Paris
+Store.2,Dubai
+Factory.3,Brasilia
+Store.4,Algiers
+Factory.5,Tokyo
+
+Note: To save changes, redirect the output to a new file or use sed -i (e.g., sed -i 's/,/./' cities.csv).
+
+Lab Completion
+
+
+
+
+
+Select End Lab and confirm with Yes.
+
+
+
+Close the panel when the "DELETE has been initiated" message appears.
+
+Notes
+
+
+
+
+
+The lab environment restricts AWS service access to ensure focus on the tasks.
+
+
+
+Commands assume the /home/ec2-user directory unless specified.
+
+
+
+The sed challenge can be chained with pipes for advanced use, but single commands are shown for simplicity.
+
+Congratulations! You have completed the lab.
