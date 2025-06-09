@@ -1,0 +1,297 @@
+Managing Services and Monitoring Lab
+
+This lab guides you through managing services and monitoring an Amazon Linux 2 EC2 instance using Linux commands and AWS CloudWatch. Below is a structured walkthrough of the tasks, commands, and expected outputs.
+
+Objectives
+
+
+
+
+
+Check the status of the httpd service to ensure it is running and verify HTTP connectivity to the local host IP.
+
+
+
+Monitor an Amazon Linux 2 EC2 instance using:
+
+
+
+
+
+The Linux top command.
+
+
+
+AWS CloudWatch.
+
+Duration
+
+30 minutes
+
+AWS Service Restrictions
+
+Access to AWS services may be restricted to those required for this lab. Attempting to access other services or perform unauthorized actions may result in errors.
+
+Task 1: Connect to an Amazon Linux EC2 Instance via SSH
+
+Windows Users
+
+
+
+
+
+From the lab instructions, select the Details drop-down menu and choose Show to open the Credentials window.
+
+
+
+Download the labsuser.ppk file (typically saved to your Downloads directory).
+
+
+
+Note the PublicIP address of the EC2 instance.
+
+
+
+Close the Details panel by selecting the X.
+
+
+
+If PuTTY is not installed, download it from PuTTY's official site.
+
+
+
+Open putty.exe and configure your session as per AWS's guide to connect to a Linux instance using PuTTY.
+
+MacOS/Linux Users
+
+Use an SSH client (e.g., Terminal) with the provided credentials and PublicIP to connect to the EC2 instance. Refer to AWS documentation for detailed steps if needed.
+
+Task 2: Check the Status of the httpd Service
+
+The httpd service runs the Apache HTTP server on your EC2 instance. This task involves checking its status, starting it, verifying it works, and stopping it.
+
+Note: Use sudo if you are not logged in as the root user.
+
+
+
+
+
+Check the status of the httpd service:
+
+sudo systemctl status httpd.service
+
+Expected Output:
+
+
+
+
+
+The output indicates the httpd service is loaded but inactive (dead).
+
+
+
+See reference image: httpd_Service_Inactive.png.
+
+
+
+Start the httpd service:
+
+sudo systemctl start httpd.service
+
+
+
+Verify the service is running:
+
+sudo systemctl status httpd.service
+
+Expected Output:
+
+
+
+
+
+The output confirms the httpd service is active (running).
+
+
+
+See reference image: httpd_Service_Active.png.
+
+
+
+Test the Apache server:
+
+
+
+
+
+Open a new browser tab and navigate to http://<publicip>, replacing <publicip> with the PublicIP noted earlier. Expected Output:
+
+
+
+The Apache HTTP Server Test Page appears, confirming proper operation.
+
+
+
+See reference image: http_test_page.png.
+
+
+
+Stop the httpd service:
+
+sudo systemctl stop httpd.service
+
+Task 3: Monitor the Amazon Linux 2 EC2 Instance
+
+This task involves monitoring the EC2 instance using the Linux top command and AWS CloudWatch.
+
+Note: Use sudo if you are not logged in as the root user.
+
+Using the top Command
+
+
+
+
+
+Display running processes and resource usage:
+
+top
+
+Expected Output:
+
+
+
+
+
+The top command shows current processes, CPU usage, and memory usage.
+
+
+
+See reference image: top_1.png.
+
+
+
+Press q to exit and return to the shell.
+
+
+
+Run a stress script to simulate CPU workload (assumed from context, as the script execution step is missing):
+
+stress --cpu 1 --timeout 60
+
+Note: This command is inferred based on standard practices for simulating CPU load. Adjust if a specific script was provided in the lab.
+
+
+
+Re-run the top command to observe the increased CPU usage:
+
+top
+
+Expected Output:
+
+
+
+
+
+The output shows elevated CPU usage due to the stress script.
+
+
+
+Press q to exit.
+
+Using AWS CloudWatch
+
+
+
+
+
+In the AWS Management Console, navigate to CloudWatch:
+
+
+
+
+
+Select Dashboard from the left navigation pane.
+
+
+
+Choose Automatic dashboards, then select EC2. Expected Output:
+
+
+
+The EC2 dashboard displays metrics like CPU Utilization, DiskReadBytes, DiskReadOps, DiskWriteBytes, DiskWriteOps, and NetworkIn.
+
+
+
+See reference image: CloudWatch dashboard with listed metrics.
+
+
+
+Observe the CPU utilization spike:
+
+
+
+
+
+The dashboard shows a spike in CPU utilization corresponding to the time the stress script was run.
+
+
+
+Update the dashboard refresh interval:
+
+
+
+
+
+Change the 5-minute average to 1-second intervals for faster updates.
+
+
+
+Wait 5 minutes and refresh the dashboard. Expected Output:
+
+
+
+The CPU Utilization graph shows a peak of 62.6% around 8 minutes, hovering around 33%, then dropping after 9 minutes.
+
+
+
+Note: CloudWatch aggregates data over 5 minutes by default, but this can be adjusted.
+
+Lab Completion
+
+
+
+
+
+End the lab:
+
+
+
+
+
+Select End Lab at the top of the instructions page and confirm by selecting Yes.
+
+
+
+A panel indicates "DELETE has been initiated... You may close this message box now."
+
+
+
+Close the panel by selecting the X in the top right corner.
+
+Notes
+
+
+
+
+
+Dashboards in AWS CloudWatch are customizable, allowing you to add/remove widgets, reorganize, or change colors.
+
+
+
+CloudWatch offers additional features like alarms and event triggers for real-time application monitoring.
+
+
+
+Ensure you have the necessary permissions to perform these actions, as the lab environment may restrict access to specific AWS services.
+
+Congratulations! You have completed the Managing Services and Monitoring Lab.
